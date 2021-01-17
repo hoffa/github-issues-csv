@@ -46,6 +46,7 @@ def write_csv(filename, fieldnames, rows):
 def synthesize_issue(issue):
     url = issue["html_url"]
     title = issue["title"]
+    user = issue["user"]["login"]
     is_pr = "pull_request" in issue
     labels = ", ".join(label["name"] for label in issue["labels"])
 
@@ -62,6 +63,7 @@ def synthesize_issue(issue):
     return {
         "url": url,
         "title": title,
+        "user": user,
         "is_pr": is_pr,
         "labels": labels,
         "created_at": created_at.date(),
@@ -83,6 +85,7 @@ def write_issues_csv(filename, issues):
     fieldnames = [
         "url",
         "title",
+        "user",
         "is_pr",
         "labels",
         "created_at",
