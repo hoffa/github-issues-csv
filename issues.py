@@ -81,12 +81,12 @@ def synthesize_issue(issue):
     }
 
 
-def synthesize_issues(issues):
-    for issue in issues:
+def get_synthesized_issues(repo):
+    for issue in get_issues(repo):
         yield synthesize_issue(issue)
 
 
-def write_issues_csv(filename, issues):
+def write_issues_csv(filename, repo):
     fieldnames = [
         "url",
         "title",
@@ -101,7 +101,7 @@ def write_issues_csv(filename, issues):
         "comments",
         "reactions",
     ]
-    write_csv(filename, fieldnames, synthesize_issues(issues))
+    write_csv(filename, fieldnames, get_synthesized_issues(repo))
 
 
 def main():
@@ -112,7 +112,7 @@ def main():
     filename = (
         f"{args.repo.replace('/','-')}-issues-{datetime.date.today().isoformat()}.csv"
     )
-    write_issues_csv(filename, get_issues(args.repo))
+    write_issues_csv(filename, args.repo)
     print(f"Written to {filename}")
 
 
