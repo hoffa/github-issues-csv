@@ -22,6 +22,7 @@ def get_json(url, headers):
 
 
 def get_issues(repo):
+    numbers = set()
     page = 0
     while True:
         url = f"https://api.github.com/repos/{repo}/issues?per_page=100&page={page}"
@@ -32,6 +33,10 @@ def get_issues(repo):
         if not issues:
             break
         for issue in issues:
+            number = issue["number"]
+            if number in numbers:
+                continue
+            numbers.add(number)
             yield issue
         page += 1
 
